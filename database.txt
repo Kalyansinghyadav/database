@@ -1,0 +1,48 @@
+postgresql commands:
+ 1. psql -h localhost -p 5432 -U postgres db :-It is used to select your database from commond prompts.
+ 2.createdb -h localhost -p 5432 -U postgres testdb
+password ******    :it is used to create db from cmd.
+ 
+ALTER TABLE COMMANDS------
+ 1.ALTER TABLE table_name ADD column_name datatype; :- to add a new column in a table.
+ 2.ALTER TABLE table_name DROP COLUMN column_name; :- to delete a column from a table.
+
+
+ CONSTRAINTS-------
+  1.UNIQUE:-column name type UNIQUE;
+  2.CHECK:-column name type check(expression);
+  3.FOREIGN KEY:- column_name type references another_table_name(column name);
+
+   drop a constraint---
+     ALTER TABLE table_name DROP CONSTRAINT some_name;
+    
+ SUBQUERIES------
+
+  1.SELECT:-SYNTAX-
+SELECT column_name [, column_name ] FROM   table1 [, table2 ] WHERE  column_name OPERATOR  
+     (SELECT column_name [, column_name ] FROM table1 [, table2 ] [WHERE]);
+ EXAMPLE:--
+               SELECT * FROM COMPANY WHERE ID IN (SELECT ID FROM COMPANY  WHERE SALARY > 45000) ;
+  2.INSERT:--
+    EXAMPLE-    INSERT INTO COMPANY_BKP SELECT * FROM COMPANY WHERE ID IN (SELECT ID FROM COMPANY) ;
+  3.UPDATE:-
+    EXAMPLE-
+             UPDATE COMPANY
+   SET SALARY = SALARY * 0.50
+   WHERE AGE IN (SELECT AGE FROM COMPANY_BKP
+      WHERE AGE >= 27 );
+
+Tables of hospital management
+
+1.EMPLOYEE :CREATE TABLE EMPLOYEE (EID INT PRIMARY KEY,NAME VARCHAR(20),CNO INT,SALARY REAL,ADDRESS VARCHAR(50),RID INT REFERENCES ROLE(RID));
+2.ROLE :CREATE TABLE ROLE(RID INT PRIMARY KEY,RNAME VARCHAR(20));
+
+3.PATIENT:CREATE TABLE PATIENT(PID INT PRIMARY KEY, PNAME VARCHAR(20),PADDRESS VARCHAR(50),CNO INT,DOB DATE);
+
+4.APPOINTMENT:CREATE TABLE APPOINTMENT(AID INT PRIMARY KEY,PID INT REFERENCES PATIENT(PID),EID INT REFERENCES EMPLOYEE(EID),DO_AP DATE);
+
+5.ROOM:CREATE TABLE ROOM(ROID INT PRIMARY KEY,RONAME VARCHAR(10),ROTYPE VARCHAR(10),NOB INT);
+
+6.MEDICINES:CREATE TABLE MEDICINES(MID INT PRIMARY KEY ,MNAME VARCHAR(20),PRICE MONEY);
+
+7.PATIENT_AD:CREATE TABLE PATIENT_AD(ADID INT PRIMARY KEY,PID INT REFERENCES PATIENT(PID),ROID INT REFERENCES ROOM(ROID),BEDNO INT,MID INT REFERENCES MEDICINES(MID),EID INT REFERENCES EMPLOYEE(EID));
